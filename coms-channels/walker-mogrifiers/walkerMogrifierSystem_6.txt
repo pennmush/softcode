@@ -1,0 +1,92 @@
+@@ Project walkerMogrifierSystem
+@@ Version 6
+@@
+@@ Description:
+@@     
+@@
+@@ Version log:
+@@     Author: Walker <Mush>
+@@     Date:   Sat Sep 17 22:27:26 2016 -0500
+@@         v6v
+@@         
+@@         Mog sorting
+@@
+@@ Readme:
+@@     Readme
+@@
+@@ Language: MushCode
+@@ Installer file created by RubySVC (Softcode Version Control)
+@@
+@@
+@@
+@@ Creating Rooms, Things and Exits.
+@@
+@@
+@set me=SVC`Tad467b6d558ae5c579ab:[default(SVC`Tad467b6d558ae5c579ab,create(Tad467b6d558ae5c579ab))]
+@set me=SVC`Tcf171f8108325244c6cf:[default(SVC`Tcf171f8108325244c6cf,create(Tcf171f8108325244c6cf))]
+@@
+@@
+@@ Objects created, now setting attributes, locks, etc.
+@@
+@@
+@@
+@@ Filling out Public channel mogrifier
+@@
+@name [v(SVC`Tad467b6d558ae5c579ab)]=Public channel mogrifier
+@tel [v(SVC`Tad467b6d558ae5c579ab)]=v(SVC`owner)
+@set [v(SVC`Tad467b6d558ae5c579ab)]=iter(setdiff(lflags([v(SVC`Tad467b6d558ae5c579ab)]),NO_COMMAND),!##) [setdiff(NO_COMMAND,lflags([v(SVC`Tad467b6d558ae5c579ab)]))]
+&SVC`IGNORE [v(SVC`Tad467b6d558ae5c579ab)]=CHAN`* DEBUGFORWARDLIST MOGS`* MOGSORT
+&SVC [v(SVC`Tad467b6d558ae5c579ab)]=
+&MOGS [v(SVC`Tad467b6d558ae5c579ab)]=This contains available mogrifiers. If you need a mogrifier that is not message, then &mogs`<name>`(channame, playername, title) will do the trick.
+&MOGRIFY`TITLE [v(SVC`Tad467b6d558ae5c579ab)]=u(fun`mogrify,%0,stripansi(%1),%2,`title)
+&MOGRIFY`SPEECHTEXT [v(SVC`Tad467b6d558ae5c579ab)]=u(fun`mogrify,%0,stripansi(%1),%2,`speechtext)
+&MOGRIFY`PLAYERNAME [v(SVC`Tad467b6d558ae5c579ab)]=u(fun`mogrify,%0,stripansi(%1),%2,`playername)
+&MOGRIFY`MESSAGE [v(SVC`Tad467b6d558ae5c579ab)]=u(fun`mogrify,%0,stripansi(%1),%2)
+&MOGRIFY`CHANNAME [v(SVC`Tad467b6d558ae5c579ab)]=u(fun`mogrify,%0,stripansi(%1),%2,`CHANNAME)
+&MOGRIFY`BLOCK [v(SVC`Tad467b6d558ae5c579ab)]=u(#1645/mogrify`block,%0,stripansi(%1),%2,%3,%4,%5)
+&MOGRIFY [v(SVC`Tad467b6d558ae5c579ab)]=Hooks for @channel Mogrifying: Mogrify`block for +cad/whack stuff, Mogrify`message for all message mogrifying, and mogrify`playername for Orange players (donors).
+&FUN`UNIQUE [v(SVC`Tad467b6d558ae5c579ab)]=munge(#lambda/[decompose(%0)],setdiff(%0,edit(graball(%0,!*),!,)),setdiff(%0,edit(graball(%0,!*),!,)))
+&FUN`SORTMOGS [v(SVC`Tad467b6d558ae5c579ab)]=firstof(munge(mogsort,%0,%0),%0)
+&FUN`MOGRIFY [v(SVC`Tad467b6d558ae5c579ab)]=firstof(fold(#lambda/firstof(u(%!/mogs`\%1%3,\%0,%1,%2),\%0),u(fun`listmogs,%# %1,%3),%0),%0)
+&FUN`LISTMOGS [v(SVC`Tad467b6d558ae5c579ab)]=u(fun`sortmogs,filterbool(#lambda/hasattrval(me,mogs`\%0%1),u(fun`unique,map(#lambda/v(chan`\%0),%0 all))))
+&FUN [v(SVC`Tad467b6d558ae5c579ab)]=Function tree
+&EXAMPLE`TEMP [v(SVC`Tad467b6d558ae5c579ab)]=regeditalli(%0,(?<!\[A-Z0-9_\])(-?\[0-9\]+(?:\\.\[0-9\]+)?)(?: +(?:deg(?:rees?)?) +)? *(C|F|Farenhei(?:gh)?t|Celsius|Centigrade)\\b,$0 ([case(ucstr(left($2,1)),C,round(add(32,fdiv(mul($1,9),5)),0) F,F,round(fdiv(mul(sub($1,32),5),9),0) C,???)]))
+&EXAMPLE`FROG`TITLE [v(SVC`Tad467b6d558ae5c579ab)]=Froggy
+&EXAMPLE`FROG`SPEECHTEXT [v(SVC`Tad467b6d558ae5c579ab)]=croaks
+&EXAMPLE`FROG`PLAYERNAME [v(SVC`Tad467b6d558ae5c579ab)]=[ansi(g,%0)]
+&EXAMPLE`FROG [v(SVC`Tad467b6d558ae5c579ab)]=
+&EXAMPLE`CLIENT`TITLE [v(SVC`Tad467b6d558ae5c579ab)]=strfirstof(%0,setdiff(iter(ports(%#),default(me/mogs`client`[setr(0,first(terminfo(##)))],%q0),,|),unknown,|,,|))
+&EXAMPLE`CLIENT`TINYFUGUE [v(SVC`Tad467b6d558ae5c579ab)]=tf
+&EXAMPLE`CLIENT [v(SVC`Tad467b6d558ae5c579ab)]=
+&EXAMPLE [v(SVC`Tad467b6d558ae5c579ab)]=Examples - mogs follows this structure.
+&CHAN [v(SVC`Tad467b6d558ae5c579ab)]=This tree defines per-user and per-channel mogrifiers, as well as the CHAN`ALL list, which is applied to all channels. (Only intended for, e.g, the temp+length conversion and tinyurlizer)
+&AUTHOR [v(SVC`Tad467b6d558ae5c579ab)]=Walker@M*U*S*H (Greg Millam)
+@@
+@@ Filling out Mogrifier Admin \(mogs\)
+@@
+@name [v(SVC`Tcf171f8108325244c6cf)]=Mogrifier Admin (mogs)
+@lock/Command [v(SVC`Tcf171f8108325244c6cf)]=ISADMIN/1
+@set [v(SVC`Tcf171f8108325244c6cf)]=iter(setdiff(lflags([v(SVC`Tcf171f8108325244c6cf)]),),!##) [setdiff(,lflags([v(SVC`Tcf171f8108325244c6cf)]))]
+@set [v(SVC`Tcf171f8108325244c6cf)]=VA:[v(SVC`Tad467b6d558ae5c579ab)]
+&ISADMIN [v(SVC`Tcf171f8108325244c6cf)]=hasflag(%#,wizard)
+&INC`FINDCHAN [v(SVC`Tcf171f8108325244c6cf)]=think setr(c,u(fun`findchan,%0)) ; @break strmatch(%qc,#-1)=@pemit %#=I can't find that player ; @assert gt(words(%qc),0)=@pemit %#=I can't find that channel ; @assert eq(words(%qc),1)=@pemit %#=Please be more specific. Matching channels: [itemize(%qc)]
+&INC [v(SVC`Tcf171f8108325244c6cf)]=@includes
+&FUN`UNIQUE [v(SVC`Tcf171f8108325244c6cf)]=munge(#lambda/[decompose(%0)],setunion(%0,),setunion(%0,))
+&FUN`MOGLINE [v(SVC`Tcf171f8108325244c6cf)]=align(<20 <6,capstr(lcstr(edit(%0,MOGS`,))),condall(hasattrval(%va,%0),M,hasattrval(%va,%0`channame),C,hasattrval(%va,%0`playername),N,hasattrval(%va,%0`title),T,hasattrval(%va,%0`speechtext),S))
+&FUN`GETMOGS [v(SVC`Tcf171f8108325244c6cf)]=lcstr(edit(map(#lambda/lattr(%va/mogs`\%0*),%0),MOGS`,))
+&FUN`FINDCHAN [v(SVC`Tcf171f8108325244c6cf)]=switch(%0,\\**,pmatch(%0),all,all,*,graball(stripansi(channels()),%0*))
+&FUN`CNAME [v(SVC`Tcf171f8108325244c6cf)]=switch(%0,all,All channels,#*,Player [name(%0)],*,Channel %0)
+&FUN [v(SVC`Tcf171f8108325244c6cf)]=functions
+&DESCRIBE [v(SVC`Tcf171f8108325244c6cf)]=Mogrifier Admin:%r%r[ansi(h,+mogs)] - This help file.%r[ansi(h,+mogs <channel>)] - View mogs affecting a channel. "all" is a special channel for mogs that apply at all times.%r[ansi(h,+mogs/all)] - See which channels and players have mogs.%r[ansi(h,+mogs *<player>)] - View mogs affecting a player.%r%r[ansi(h,+mogs/list)] - view all mogs and their affects.%r[ansi(h,+mogs/enable <channel>|*<player>=<list>)] - Enable mogs for a channel or a player.%r[ansi(h,+mogs/disable <channel>|*<player>=<list>)] - Disable mogs for a channel or player.
+&CMD`MOGS_CHAN [v(SVC`Tcf171f8108325244c6cf)]=$+mogs *:@include me/inc`findchan=%0 ; @assert hasattrval(%va,chan`%qc)=@pemit %#=There are no mogrifiers affecting [u(fun`cname,%qc)] ; @pemit %#=Mogrifiers applied to [u(fun`cname,%qc)]: [u(%va/chan`%qc)]
+&CMD`MOGS_ALL [v(SVC`Tcf171f8108325244c6cf)]=$+mogs/all:@pemit %#=Players and Channels with Mogrifiers:%r%r[map(#lambda/align(<20 <40,u(fun`cname,\%0),get(%va/CHAN`\%0)),filterbool(#lambda/hasttrval(%va,\%0),remove(edit(lattr(%va/CHAN`*),CHAN`,),ALL) ALL),%b,%r)]
+&CMD`MOGS [v(SVC`Tcf171f8108325244c6cf)]=$+mogs:@pemit %#=u(describe)
+&CMD`LISTMOGS [v(SVC`Tcf171f8108325244c6cf)]=$+mogs/list:@pemit %#=[align(<20 <6,Name,Types)]%b[align(<20 <6,Name,Types)]%b[align(<20 <6,Name,Types)]%r%r[step(#lambda/map(fun`mogline,\[squish(\%0 \%1 \%2)\]),lattr(%va/mogs`*),3,%b,%r)]%r%rTypes key: M: message, C: Channame, N: Playername, T: Title, S: Speechtext.
+&CMD`ENABLE [v(SVC`Tcf171f8108325244c6cf)]=$+mogs/enable *=*:@include me/inc`findchan=%0 ; think setr(m,u(fun`getmogs,%1)) ; @assert strlen(%qm)=@pemit %#=Which mogs? ; @pemit %#=Enabling mogs '%qm' for [u(fun`cname,%qc)] ; &chan`%qc %va=u(fun`unique,get(%va/chan`%qc) %qm) ; @include me/cmd`mogs_chan=%0
+&CMD`DISABLE [v(SVC`Tcf171f8108325244c6cf)]=$+mogs/disable *=*:@include me/inc`findchan=%0 ; think setr(m,u(fun`getmogs,%1)) ; @assert strlen(%qm)=@pemit %#=Which mogs? ; @pemit %#=Disabling mogs '%qm' for [u(fun`cname,%qc)] ; &chan`%qc %va=u(fun`unique,remove(get(%va/chan`%qc),%qm)) ; @include me/cmd`mogs_chan=%0
+&CMD [v(SVC`Tcf171f8108325244c6cf)]=Commands
+&AUTHOR [v(SVC`Tcf171f8108325244c6cf)]=Walker@M*U*S*H (Greg Millam)
+@set [v(SVC`Tcf171f8108325244c6cf)]/DESCRIBE=nearby no_command prefixmatch public visual
+@@
+@@ Triggering all startups, oncreates, onupdates.
+@@

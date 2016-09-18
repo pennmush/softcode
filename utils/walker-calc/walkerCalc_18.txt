@@ -1,0 +1,271 @@
+@@ Project walkerCalc
+@@ Version 18
+@@
+@@ Description:
+@@     A calculator with both typical expression calculating (3 +
+@@     sin(12) * PI^2)) and graphing, plotting calculation points
+@@     on a graph. It also has a function to turn any mathematical
+@@     expression it understands into mushcode. e.g: It will turn
+@@     2+2*4 into add(2,mul(2,4)).
+@@
+@@ Version log:
+@@     Author: Walker <Mush>
+@@     Date:   Sat Feb 27 02:45:25 2016 -0600
+@@         v18v
+@@         
+@@         Add debug
+@@
+@@ Readme:
+@@     The math-related functions are in the Math Chip object, and
+@@     that can be @parented to to obtain u(calc,<expression>).
+@@     Math Chip contains no $-commands, while Graphing Calculator
+@@     contains all the UI and the code for graphing functions.
+@@
+@@ Language: MushCode
+@@ Installer file created by RubySVC (Softcode Version Control)
+@@
+@@
+@@
+@@ Creating Rooms, Things and Exits.
+@@
+@@
+@set me=SVC`T5fd115610da1b53ee7d8:[default(SVC`T5fd115610da1b53ee7d8,create(T5fd115610da1b53ee7d8))]
+@set me=SVC`T8b5e2be36ef5564822a1:[default(SVC`T8b5e2be36ef5564822a1,create(T8b5e2be36ef5564822a1))]
+@@
+@@
+@@ Objects created, now setting attributes, locks, etc.
+@@
+@@
+@@
+@@ Filling out Graphing Calculator Parent
+@@
+@parent [v(SVC`T5fd115610da1b53ee7d8)]=v(SVC`T8b5e2be36ef5564822a1)
+@name [v(SVC`T5fd115610da1b53ee7d8)]=Graphing Calculator Parent
+@set [v(SVC`T5fd115610da1b53ee7d8)]=iter(setdiff(lflags([v(SVC`T5fd115610da1b53ee7d8)]),LINK_OK NO_COMMAND VISUAL),!##) [setdiff(LINK_OK NO_COMMAND VISUAL,lflags([v(SVC`T5fd115610da1b53ee7d8)]))]
+&VW [v(SVC`T5fd115610da1b53ee7d8)]=68
+&VH [v(SVC`T5fd115610da1b53ee7d8)]=18
+&VAR`X [v(SVC`T5fd115610da1b53ee7d8)]=19.705906
+&VAR [v(SVC`T5fd115610da1b53ee7d8)]=Variables go here.
+&USE [v(SVC`T5fd115610da1b53ee7d8)]=%rCalculator Methods:%r%b%b[ansi(h,calc <expression>)] - calculate an expression.%r%b%b[ansi(h,mushcalc <expression>)] - Convert a math expression into softcode.%r%b%b[ansi(h,graph <expression>)] - Graph an expression. Use "X" as the variable.%r%b%b[ansi(h,range <minx>-<maxx>\,<miny>-<maxy>)] - Choose the range of the graph.%r%b%b[ansi(h,mode (normal|graphing))] - Which display mode to put the calculator in.%r%b%b[ansi(h,deg)], [ansi(h,rad)] or [ansi(h,grad)] - change trig mode%r%b%b[ansi(h,sto <VARNAME>)] - store last calculated expression into a variable%r%b%b[ansi(h,sto <VARNAME>=<expression>)] - store an expression into a variable. 'X' is a special variable that is overwritten and used when graphing.%r%b%bOperands:%r[space(6)] + - * / \% ^ \\ d (as in 3d6)%r%b%bFunctions:%r[space(6)][ansi(h,lit(pi() e() sin() cos() tan() asin() acos() atan() abs() sqrt() ln()))]%r%b%bExamples:%r[space(6)]graph 10 + 5*sin(X)%r[space(6)]calc 3d6+20%r[space(6)]sto BIRTHYEAR=1979%r[space(6)]calc 2007-BIRTHYEAR
+&TRIG [v(SVC`T5fd115610da1b53ee7d8)]=r
+&POINTS [v(SVC`T5fd115610da1b53ee7d8)]=
+&PEMIT [v(SVC`T5fd115610da1b53ee7d8)]=pemit(%0,Calc: %1)
+&MODE [v(SVC`T5fd115610da1b53ee7d8)]=normal
+&MINY [v(SVC`T5fd115610da1b53ee7d8)]=-5
+&MINX [v(SVC`T5fd115610da1b53ee7d8)]=-5
+&MAXY [v(SVC`T5fd115610da1b53ee7d8)]=5
+&MAXX [v(SVC`T5fd115610da1b53ee7d8)]=5
+&GRAPH`POINT [v(SVC`T5fd115610da1b53ee7d8)]=null(attrib_set(me/VAR`X,%0),iter(s(%qs),if(cand(lt(%i0,%qt),gt(%i0,%qb)),null(setq(p,ceil(fdiv(sub(%i0,%qb),%qy))),setq(g,strreplace(%qg,add(mul(%vw,sub(%vh,%qp)),%1),1,elements(%qj,#@))))),%b,))
+&GRAPH [v(SVC`T5fd115610da1b53ee7d8)]=null(setq(g,repeat(#,mul(%vw,%vh)),m,fdiv(sub(v(maxx),v(minx)),68),l,v(minx),r,v(maxx),b,v(miny),t,v(maxy)),setq(y,fdiv(sub(%qt,%qb),%vh)),setq(j,v(points)),map(graph`point,iter(lnum(%vw),add(%ql,mul(##,%qm))),%b,))[mid(%qg,1,10000)]
+&DESCRIBE`NORMAL [v(SVC`T5fd115610da1b53ee7d8)]=.[repeat(-,20)].%r|[space(20)]|%r[align(1. 18 1.,|,v(function)%r%r> [v(result)]%r,|)]%r|[space(20)]|%r'[repeat(-,20)]'
+&DESCRIBE`GRAPHING [v(SVC`T5fd115610da1b53ee7d8)]=[setq(s,u(rpn_to_softcode,v(rpn)))][edit([space(5)].[repeat(-,add(%vw,2))].%r[align(>4 1. %vw 1.,[left(v(maxy),4)][repeat(%r,dec(%vh))][left(v(miny),4)],|,u(graph),|)]%r[space(5)]'[repeat(-,add(%vw,2))]'%r[space(8)][ljust(left(v(minx),4),sub(%vw,3))][left(v(maxx),4)],#,%b)]
+&DESCRIBE [v(SVC`T5fd115610da1b53ee7d8)]=u(describe`[v(mode)])
+&CMD`STO_FUNC [v(SVC`T5fd115610da1b53ee7d8)]=$^sto ([A-Z]+)=(.+)$:th u(pemit,%#,[if(regmatch(%1,^\[A-Z\]+$),Function '%2' stored in %1.[attrib_set(me/var`%1,u(convert,%2))][attrib_set(me/var`%1_func,%2)],You can only use an upper case register. (A-Z))])
+&CMD`STO [v(SVC`T5fd115610da1b53ee7d8)]=$^sto ([A-Z][A-Z0-9]*)$:th u(pemit,%#,[if(regmatch(%1,^\[A-Z\]*$),Result '[v(result)]' stored in %1.[attrib_set(me/var`%1,v(result))][attrib_set(me/var`%1_func,v(result))],You can only use an upper case register. (A-Z))])
+&CMD`RANGE [v(SVC`T5fd115610da1b53ee7d8)]=$^range (-?\d+(?\:\.\d+)?)\s*-\s*(-?\d+(?\:\.\d+)?)\s*,\s*(-?\d+(?\:\.\d+)?)-(-?\d+(?\:\.\d+)?)$:th u(pemit,%#,X range set from %1 to %2. Y range set from %3 to %4.) ; &minx me=%1 ; &maxx me=%2 ; &miny me=%3 ; &maxy me=%4
+&CMD`MUSHCALC [v(SVC`T5fd115610da1b53ee7d8)]=$mushcalc *:think u(pemit,%#,u(rpn_to_softcode,u(convert,%0)))
+&CMD`MODE [v(SVC`T5fd115610da1b53ee7d8)]=$^mode (normal|graphing)$:th u(pemit,%#,Mode set to %1) ; &mode me=%1
+&CMD`GRAPH [v(SVC`T5fd115610da1b53ee7d8)]=$graph *:think setq(e,u(convert,%0)) ; &funsoft me=setr(s,u(rpn_to_softcode,e)) ; &function me=%0 ; &rpn me=%qe ; @pemit %#=tagwrap(pre,u(describe`graphing))[pemit(%#,?: %?)]
+&CMD`DRG [v(SVC`T5fd115610da1b53ee7d8)]=$^(deg|rad|grad)$:th u(pemit,%#,Trig functions set to [switch(%0,deg,degrees,rad,radians,grad,gradians,???)].) ; &trig me=[left(%0,1)]
+&CMD`CALC [v(SVC`T5fd115610da1b53ee7d8)]=$calc *:th u(pemit,%#,[setr(r,revwords(u(calc_rpn,setr(f,u(convert,%0)))))]) ; &result me=%qr ; &function me=%0 ; &rpn me=%qf
+&CMD [v(SVC`T5fd115610da1b53ee7d8)]=Command tree.
+&AUTHOR [v(SVC`T5fd115610da1b53ee7d8)]=Walker@M*U*S*H. Email comments, changes, suggestions to walker@pennmush.org
+@set [v(SVC`T5fd115610da1b53ee7d8)]/VAR=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/USE=no_command prefixmatch
+@set [v(SVC`T5fd115610da1b53ee7d8)]/TRIG=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/PEMIT=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/MODE=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/MINY=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/MINX=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/MAXY=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/MAXX=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/GRAPH`POINT=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/GRAPH=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/DESCRIBE`GRAPHING=no_command
+@set [v(SVC`T5fd115610da1b53ee7d8)]/DESCRIBE=nearby no_command prefixmatch public visual
+@set [v(SVC`T5fd115610da1b53ee7d8)]/CMD`STO_FUNC=regexp
+@set [v(SVC`T5fd115610da1b53ee7d8)]/CMD`STO=regexp
+@set [v(SVC`T5fd115610da1b53ee7d8)]/CMD`RANGE=regexp
+@set [v(SVC`T5fd115610da1b53ee7d8)]/CMD`MODE=regexp
+@set [v(SVC`T5fd115610da1b53ee7d8)]/CMD`DRG=regexp
+@set [v(SVC`T5fd115610da1b53ee7d8)]/AUTHOR=no_command
+@@
+@@ Filling out Math Chip
+@@
+@name [v(SVC`T8b5e2be36ef5564822a1)]=Math Chip
+@tel [v(SVC`T8b5e2be36ef5564822a1)]=v(SVC`T5fd115610da1b53ee7d8)
+@set [v(SVC`T8b5e2be36ef5564822a1)]=iter(setdiff(lflags([v(SVC`T8b5e2be36ef5564822a1)]),LINK_OK VISUAL),!##) [setdiff(LINK_OK VISUAL,lflags([v(SVC`T8b5e2be36ef5564822a1)]))]
+&VAR`PI [v(SVC`T8b5e2be36ef5564822a1)]=3.141593
+&VAR`E [v(SVC`T8b5e2be36ef5564822a1)]=2.718282
+&VAR [v(SVC`T8b5e2be36ef5564822a1)]=Variables go here.
+&USE [v(SVC`T8b5e2be36ef5564822a1)]=u(describe)
+&TRIG [v(SVC`T8b5e2be36ef5564822a1)]=r
+&RX [v(SVC`T8b5e2be36ef5564822a1)]=(-?\d+(?:\.\d+)?|[-%^+*/><=&,]|d(?![a-z])|[()]|\w+\(|[A-Z!`_][_!`A-Z0-9]*)
+&RPN_TO_SOFTCODE`OPERATOR [v(SVC`T8b5e2be36ef5564822a1)]=squish(switch(%0,\\<,lt,\\>,gt,=,eq,&,cat,-,sub,+,add,d,die,\/,fdiv,^,power,\%,mod,mul)\([elements(%1,2)]\,[first(%1)]\) [extract(%1,3,10000)])
+&RPN_TO_SOFTCODE`FUNCTION [v(SVC`T8b5e2be36ef5564822a1)]=squish([switch(1,strmatch(%0,val),,t(member(v(mushfuns),%0)),%0\(,u\(fun`%0\,)][edit(revwords(before(%1,CloseParen)),%b,\,)][if(strmatch(%0,val),,\))] [after(%1,CloseParen)])
+&RPN_TO_SOFTCODE`EACH [v(SVC`T8b5e2be36ef5564822a1)]=reswitch(%1,^-?\\d+(\\.\\d+)?$,%1 %0,^\[-\%d^+*\\/<>=&\]$,u(rpn_to_softcode`operator,%1,%0),^\[A-Z!_`\]\[!`_A-Z0-9\]*$,switch(1,strmatch(%1,X),u\(get\,%1\),isnum(v(var`%1)),v(var`%1),u\(get\,%1\)) %0,^\[a-z\]\[a-z0-9\]+$,u(rpn_to_softcode`function,%1,%0),^CloseParen$,%1 %0,#-1 INVALID RPN)
+&RPN_TO_SOFTCODE [v(SVC`T8b5e2be36ef5564822a1)]=localize(squish(if(regmatch(setr(e,edit(%0,\),CloseParen)),^\\d+(?:\\.\\d+)?$),%qe,[null(regmatch(,repeat(\(\),35),- 0 1 2 3 4 5 6 7 8 9 b c d f g h i j k l m n o p q r s t u v w x y z))][if(pos(%b,setr(m,fold(rpn_to_softcode`each,%qe,))),cat\([edit(%qm,%b,\,)]\),%qm)])))
+&RPN [v(SVC`T8b5e2be36ef5564822a1)]=1 3 / ceil
+&RESULT [v(SVC`T8b5e2be36ef5564822a1)]=1
+&PROCESS`VARIABLE [v(SVC`T8b5e2be36ef5564822a1)]=setq(o,%0 %qo)
+&PROCESS`TOKEN [v(SVC`T8b5e2be36ef5564822a1)]=reswitch(%0,^\,$,u(process`push,%0),^\[-\%d^+*\\/<>=&\]$,u(process`operator,%0),^\[A-Z!_`\]\[_!`A-Z0-9\]*$,u(process`variable,%0),^-?\\d+(\\.\\d+)?,u(process`number,%0),^(\[a-z\]\[a-z0-8\]+)?\\\(,u(process`function,%0),\\\),u(process`function_close),#-1 INVALID TOKEN)[setq(l,%0)]
+&PROCESS`PUSH [v(SVC`T8b5e2be36ef5564822a1)]=null(setq(0,1,1,0),map(process`operator_call,%qs))
+&PROCESS`PRIORITY [v(SVC`T8b5e2be36ef5564822a1)]=&, ><= -+ %*/ ^ d
+&PROCESS`OPERATOR_CALL [v(SVC`T8b5e2be36ef5564822a1)]=switch(0,%q0,,t(gt(wordpos(x %qp,pos(%0,x %qp)),%q1)),setq(0,0),setq(o,%0 %qo)[setq(s,rest(%qs))])
+&PROCESS`OPERATOR [v(SVC`T8b5e2be36ef5564822a1)]=null(setq(0,1,1,wordpos(%qp,pos(%0,%qp))),map(process`operator_call,%qs),setq(s,%0 %qs))
+&PROCESS`NUMBER [v(SVC`T8b5e2be36ef5564822a1)]=setq(o,%0 %qo)
+&PROCESS`FUNCTION_CLOSE [v(SVC`T8b5e2be36ef5564822a1)]=null(setq(0,1,1,0),map(process`operator_call,%qs),setq(o,first(%qs) %qo,s,rest(%qs)))
+&PROCESS`FUNCTION [v(SVC`T8b5e2be36ef5564822a1)]=setq(o,\) %qo,s,switch(%0,\(,val,*\(,edit(%0,\(,),,wtf:%0) %qs)
+&PROCESS`FINISH [v(SVC`T8b5e2be36ef5564822a1)]=[null(setq(0,1,1,0),map(process`operator_call,%qs))]%qo
+&PROCESS_RPN`OPERATOR [v(SVC`T8b5e2be36ef5564822a1)]=[[switch(%0,\\<,lt,\\>,gt,=,eq,&,cat,\,,cat,-,sub,+,add,d,die,\/,fdiv,^,power,\%,mod,mul)](elements(%1,2),first(%1))] [extract(%1,3,10000)]
+&PROCESS_RPN`FUNCTION [v(SVC`T8b5e2be36ef5564822a1)]=squish(step(fun`%0,revwords(before(%1,\))),words(before(%1,\)))) [after(%1,\))])
+&PROCESS_RPN_DEBUG`OPERATOR [v(SVC`T8b5e2be36ef5564822a1)]=setr(res,[[switch(%0,\\<,lt,\\>,gt,=,eq,&,cat,\,,cat,-,sub,+,add,d,die,\/,fdiv,^,power,\%,mod,mul)](elements(%1,2),first(%1))]) [extract(%1,3,10000)][u(fun`debug,[elements(%1,2)] %0 [first(%1)] = %q<res>)]
+&PROCESS_RPN_DEBUG`FUNCTION [v(SVC`T8b5e2be36ef5564822a1)]=squish(setr(res,step(fun`%0,revwords(before(%1,\))),words(before(%1,\))))) [after(%1,\))])[if(comp(%0,val),u(fun`debug,%0\([edit(revwords(before(%1,\))),%b,\,)]\) = %q<res>))]
+&PROCESS_RPN_DEBUG [v(SVC`T8b5e2be36ef5564822a1)]=reswitch(%1,^-?\\d+(\\.\\d+)?$,%1 %0,^\[-\%d^+*\\/<>=&\]$,u(process_rpn_debug`operator,%1,%0),^\\\)$,%1 %0,^\[A-Z!`_\]\[_!`A-Z0-9\]*$,u(get,%1) %0,^\[a-z\]\[a-z0-9\]+$,u(process_rpn_debug`function,%1,%0),#-1 INVALID RPN)
+&PROCESS_RPN [v(SVC`T8b5e2be36ef5564822a1)]=reswitch(%1,^-?\\d+(\\.\\d+)?$,%1 %0,^\[-\%d^+*\\/<>=&\]$,u(process_rpn`operator,%1,%0),^\\\)$,%1 %0,^\[A-Z!`_\]\[_!`A-Z0-9\]*$,u(get,%1) %0,^\[a-z\]\[a-z0-9\]+$,u(process_rpn`function,%1,%0),#-1 INVALID RPN)
+&PROCESS [v(SVC`T8b5e2be36ef5564822a1)]=[setq(p,v(process`priority))][if(strlen(regeditall(u(fix_negatives,%0),v(rx),null(u(process`token,$1)),\\s+,)),FORMULA IMPROPER #-1,u(process`finish))]
+&PEMIT [v(SVC`T8b5e2be36ef5564822a1)]=pemit(%0,Calc: %1)
+&MUSHFUNS [v(SVC`T8b5e2be36ef5564822a1)]=abs acos add and asin atan band bor bound bxor ceil cos die dist2d dist3d div e eq fdiv floor gt gte ln log log2 lt lte max mean median min mod modulo mul nand neq nor or pi remainder round sin sqrt stddev sub tan val xor
+&MODE [v(SVC`T8b5e2be36ef5564822a1)]=graphing
+&GET [v(SVC`T8b5e2be36ef5564822a1)]=switch(1,hasattrp(me,var`%0),u(calc_rpn,v(var`%0)),hasattrp(me,dvar`%0),u(calc,u(dvar`%0)),0)
+&FUN`XOR [v(SVC`T8b5e2be36ef5564822a1)]=lmath(xor,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`VAL [v(SVC`T8b5e2be36ef5564822a1)]=%0
+&FUN`TAN [v(SVC`T8b5e2be36ef5564822a1)]=tan(%0,v(trig))
+&FUN`SUB [v(SVC`T8b5e2be36ef5564822a1)]=lmath(sub,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`STDDEV [v(SVC`T8b5e2be36ef5564822a1)]=lmath(stddev,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`SQRT [v(SVC`T8b5e2be36ef5564822a1)]=sqrt(%0)
+&FUN`SIN [v(SVC`T8b5e2be36ef5564822a1)]=sin(%0,v(trig))
+&FUN`ROUND [v(SVC`T8b5e2be36ef5564822a1)]=round(%0,firstof(%1,2))
+&FUN`REMAINDER [v(SVC`T8b5e2be36ef5564822a1)]=lmath(remainder,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`RAND [v(SVC`T8b5e2be36ef5564822a1)]=switch(%+,1,rand(%0),2,rand(%0,%1),#-1 FUNCTION (RAND) EXPECTS 1 OR 2 ARGUMENTS BUT GOT %+)
+&FUN`PI [v(SVC`T8b5e2be36ef5564822a1)]=pi()
+&FUN`OR [v(SVC`T8b5e2be36ef5564822a1)]=lmath(or,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`NOR [v(SVC`T8b5e2be36ef5564822a1)]=lmath(nor,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`NEQ [v(SVC`T8b5e2be36ef5564822a1)]=lmath(neq,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`NAND [v(SVC`T8b5e2be36ef5564822a1)]=lmath(nand,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`MUL [v(SVC`T8b5e2be36ef5564822a1)]=lmath(mul,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`MODULO [v(SVC`T8b5e2be36ef5564822a1)]=lmath(modulo,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`MOD [v(SVC`T8b5e2be36ef5564822a1)]=mod(%0,%1)
+&FUN`MIN [v(SVC`T8b5e2be36ef5564822a1)]=lmath(min,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`MEDIAN [v(SVC`T8b5e2be36ef5564822a1)]=lmath(median,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`MEAN [v(SVC`T8b5e2be36ef5564822a1)]=lmath(mean,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`MAX [v(SVC`T8b5e2be36ef5564822a1)]=lmath(max,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`LTE [v(SVC`T8b5e2be36ef5564822a1)]=lmath(lte,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`LT [v(SVC`T8b5e2be36ef5564822a1)]=lmath(lt,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`LOG2 [v(SVC`T8b5e2be36ef5564822a1)]=log(%0,2)
+&FUN`LOG [v(SVC`T8b5e2be36ef5564822a1)]=log(%0,firstof(%1,10))
+&FUN`LN [v(SVC`T8b5e2be36ef5564822a1)]=ln(%0)
+&FUN`GTE [v(SVC`T8b5e2be36ef5564822a1)]=lmath(gte,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`GT [v(SVC`T8b5e2be36ef5564822a1)]=lmath(gt,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`GAUSS [v(SVC`T8b5e2be36ef5564822a1)]=mul(%1,power(e(),sub(0,fdiv(power(sub(%0,%2),2),mul(2,power(%3,2))))))
+&FUN`FLOOR [v(SVC`T8b5e2be36ef5564822a1)]=floor(%0)
+&FUN`FDIV [v(SVC`T8b5e2be36ef5564822a1)]=lmath(fdiv,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`EQ [v(SVC`T8b5e2be36ef5564822a1)]=lmath(eq,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`E [v(SVC`T8b5e2be36ef5564822a1)]=e()
+&FUN`DIV [v(SVC`T8b5e2be36ef5564822a1)]=lmath(div,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`DIST3D [v(SVC`T8b5e2be36ef5564822a1)]=lmath(dist3d,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`DIST2D [v(SVC`T8b5e2be36ef5564822a1)]=lmath(dist2d,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`DIE [v(SVC`T8b5e2be36ef5564822a1)]=die(%0,%1)
+&FUN`DEBUG [v(SVC`T8b5e2be36ef5564822a1)]=pemit(%#,CALC DEBUG: %0)
+&FUN`COS [v(SVC`T8b5e2be36ef5564822a1)]=cos(%0,v(trig))
+&FUN`CEIL [v(SVC`T8b5e2be36ef5564822a1)]=ceil(%0)
+&FUN`BXOR [v(SVC`T8b5e2be36ef5564822a1)]=lmath(bxor,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`BOUND [v(SVC`T8b5e2be36ef5564822a1)]=bound(%0,%1,%2)
+&FUN`BOR [v(SVC`T8b5e2be36ef5564822a1)]=lmath(bor,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`BAND [v(SVC`T8b5e2be36ef5564822a1)]=lmath(band,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`ATAN2 [v(SVC`T8b5e2be36ef5564822a1)]=atan2(%0,%1,v(trig))
+&FUN`ATAN [v(SVC`T8b5e2be36ef5564822a1)]=atan(%0,v(trig))
+&FUN`ASIN [v(SVC`T8b5e2be36ef5564822a1)]=asin(%0,v(trig))
+&FUN`AND [v(SVC`T8b5e2be36ef5564822a1)]=lmath(and,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`ADD [v(SVC`T8b5e2be36ef5564822a1)]=lmath(add,%0 %1 %2 %3 %4 %5 %6 %7 %8 %9)
+&FUN`ACOS [v(SVC`T8b5e2be36ef5564822a1)]=acos(%0,v(trig))
+&FUN`ABS [v(SVC`T8b5e2be36ef5564822a1)]=abs(%0)
+&FUNCTION [v(SVC`T8b5e2be36ef5564822a1)]=ceil(1 / 3)
+&FUN [v(SVC`T8b5e2be36ef5564822a1)]=Function definitions here.
+&FIX_NEGATIVES`RX [v(SVC`T8b5e2be36ef5564822a1)]=(^|[^0-9A-Za-z\)])\-([0-9\.\(\)])
+&FIX_NEGATIVES [v(SVC`T8b5e2be36ef5564822a1)]=regeditall(edit(regeditall(edit(%0,~,-),v(fix_negatives`rx),$1[chr(180)]$2),\-,-%b,chr(180),-),\\b(-?\\d+(?:\\.\\d+)?)(\[A-Z\]+\[A-Z0-9\]*),$1*$2,(\\d+)(\[a-ce-z\]+|d[a-z]+),$1*$2)
+&DVAR [v(SVC`T8b5e2be36ef5564822a1)]=
+&DESCRIBE`NORMAL [v(SVC`T8b5e2be36ef5564822a1)]=.[repeat(-,20)].%r|[space(20)]|%r[align(1. 18 1.,|,v(function)%r%r> [v(result)]%r,|)]%r|[space(20)]|%r'[repeat(-,20)]'
+&DESCRIBE`GRAPHING [v(SVC`T8b5e2be36ef5564822a1)]=[setq(e,v(rpn))][edit([space(5)].[repeat(-,70)].%r[align(>4 1. 68 1.,[left(v(maxy),4)][repeat(%r,17)][left(v(miny),4)],|,u(graph),|)]%r[space(5)]'[repeat(-,70)]'%r[space(8)][ljust(left(v(minx),4),65)][left(v(maxx),4)],#,%b)]
+&DESCRIBE [v(SVC`T8b5e2be36ef5564822a1)]=This is a math chip that contains processing routines for handling mathematical expressions. It is not really intended for direct use, but to be @parented to objects that need it.%r%r%b%bA function is a string, lowercase, followed by a (. Functions on math chip can take up to 10 arguments.%r%b%bA variable is a string of upper case characters and numbers - The first must be an upper case character. (e.g: VAL1 is a variable, 1VAL is 1 * the variable VAL)%r%rPre-set variables and functions:%r%b%bE, PI, sin(), cos(), tan(), sqrt(), abs(), acos(), asin(), atan(), ceil(), floor(), ln()%r%rCommon child-set attributes:%r%r[align(<30 45,%b%b&var`<NAME> child=<expr> -,Set NAME to a constant or a math expression.)]%r%r[align(<30 45,%b%b&dvar`<NAME> child=<ufun> -,If NAME is in an expression\, Math chip calls u(dvar`NAME) to fetch a value or expression.)]%r%r%b%b&isdebug child=1 - If isdebug is true, then math chip pemits each step of calculation to the user.%r%r[align(<30 45,%b%b&fun`<name> child=<ufun> -,If name(...) is in an expression\, math chip calls u(fun`name,<arg0>,\[<arg1>,...\]) and expects a single number back.)]%r%rProvided functions:%r%r%b%bu(convert,<expression>) - Convert <expression> to RPN.%r%b%bu(calc_rpn,<rpn>) - Execute an RPN calculation string.%r%b%bu(rpn_to_softcode,<rpn>) - Turn <RPN> into a softcode s()-able string that uses u(get,varname) for unknown variables.%r%b%bu(calc,<expression>) - Just go straight from a math expression to its result.%r%rI
+&CONVERT [v(SVC`T8b5e2be36ef5564822a1)]=revwords(localize(squish(if(regmatch(%0,^-?\\d+(\\.\\d+)?$),%0,[null(setq(0,,s,,o,,p,,a,))][u(process,%0)]))))
+&CALC_RPN [v(SVC`T8b5e2be36ef5564822a1)]=localize(squish(if(regmatch(%0,^\\d+(?:\\.\\d+)?$),%0,[null(regmatch(,repeat(\(\),35),- 0 1 2 3 4 5 6 7 8 9 b c d e f g h i j k l m n o p q r s t u v w x y z))]fold(if(v(isdebug),process_rpn_debug,process_rpn),%0,)))
+&CALC2SOFTCODE [v(SVC`T8b5e2be36ef5564822a1)]=u(rpn_to_softcode,u(convert,%0))
+&CALC [v(SVC`T8b5e2be36ef5564822a1)]=revwords(u(calc_rpn,u(convert,%0)))
+&AUTHOR [v(SVC`T8b5e2be36ef5564822a1)]=Walker@M*U*S*H. Email comments, changes, suggestions to walker@pennmush.org
+@set [v(SVC`T8b5e2be36ef5564822a1)]/VAR`PI=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/VAR`E=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/VAR=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/USE=no_command prefixmatch
+@set [v(SVC`T8b5e2be36ef5564822a1)]/TRIG=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/RX=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/RPN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/RESULT=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS`VARIABLE=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS`TOKEN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS`PRIORITY=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS`OPERATOR_CALL=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS`OPERATOR=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS`NUMBER=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS`FUNCTION_CLOSE=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS`FUNCTION=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS`FINISH=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS_RPN`OPERATOR=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS_RPN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PROCESS=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/PEMIT=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/MODE=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`XOR=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`VAL=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`TAN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`SUB=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`STDDEV=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`SQRT=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`SIN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`REMAINDER=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`PI=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`OR=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`NOR=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`NEQ=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`NAND=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`MUL=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`MODULO=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`MIN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`MEDIAN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`MEAN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`MAX=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`LTE=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`LT=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`LN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`GTE=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`GT=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`FLOOR=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`FDIV=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`EQ=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`E=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`DIV=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`DIST3D=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`DIST2D=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`COS=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`CEIL=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`BXOR=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`BOR=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`BAND=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`ATAN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`ASIN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`AND=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`ACOS=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN`ABS=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUNCTION=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FUN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/FIX_NEGATIVES=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/DESCRIBE`NORMAL=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/DESCRIBE`GRAPHING=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/DESCRIBE=nearby no_command prefixmatch public visual
+@set [v(SVC`T8b5e2be36ef5564822a1)]/CONVERT=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/CALC_RPN=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/CALC=no_command
+@set [v(SVC`T8b5e2be36ef5564822a1)]/AUTHOR=no_command
+@@
+@@ Triggering all startups, oncreates, onupdates.
+@@

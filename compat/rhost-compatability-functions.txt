@@ -4,6 +4,8 @@
 @@ Free for reuse or modification. 
 @@ Upload to your MUSH as a Wizard to install.
 @@
+@@ Please submit fixes, additions or improvements to https://github.com/pennmush/softcode/
+@@
 @@ Functions added:
 @@ bittype()
 @@ between(), fbetween()
