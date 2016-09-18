@@ -23,8 +23,10 @@ You can, but don't hold your breath :)
 ### Can I request a new feature/addition/change to some code here?
 You can, but unless it's deemed widely useful and we happen to be the authors of the original code, it's unlikely to happen. For code submitted by others, you could try contacting the original author, if they supplied contact details.
 
-### Can you modify this code just for my game?
-No, sorry.
+Unfortunately, the Penn devs aren't able to write or modify softcode specifically for your game. Sorry.
+
+### What can I do with the code here?
+The code in this repository should contain a license, either in a separate file or as part of the code. If it doesn't, it's free for use, and you should contact the author for anything else.
 
 ### I've found a bug!
 Open an Issue and let us know, or if you'd really like us to love you, submit a Pull Request with a fix.
