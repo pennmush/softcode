@@ -74,9 +74,9 @@ To install the BB, this is all you need to do:
 
  * Quote the code file to the MUSH via your preferred method. The /quote option under tinyfugue works wonderfully.
  * If you are quoting this file to the MUSH with anyone other than #1 (god), there are a couple of extra steps you need to take after quoting this file:
- * @attribute/access bb_read=hidden wizard
- * @attribute/access bb_omit=hidden wizard
- * @attribute/access bb_silent=hidden wizard
+   * @attribute/access bb_read=hidden wizard
+   * @attribute/access bb_omit=hidden wizard
+   * @attribute/access bb_silent=hidden wizard
  * Place the Global BB in the Master Room of the MUSH. The bbpocket will have already been placed inside the BB object for convenience. Don't worry, objects inside objects in the Master Room are not searched for global commands -- having the bbpocket inside the BB won't add to your lag one bit. :-) 
 
 And that's it! The installer will create the objects for you, set the code, and do the rest of the work. It even detects differences between MUSH and MUX and makes the necessary changes (so far this only involves a difference of a couple flags and the lnum() function)
