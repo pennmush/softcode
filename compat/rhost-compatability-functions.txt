@@ -12,6 +12,7 @@
 @@ caplist()
 @@ chomp()
 @@ lookup_site()
+@@ mask()
 @@ writable()
 @@ wildmatch()
 
@@ -65,3 +66,9 @@
 
 @@ wildmatch(<list of patterns>, <string>[, <delim>])
 &fun`wildmatch RCF=first(iter(%0,if(strmatch(%1,%i0),#@[ibreak()]),%2) 0)
+
+@@ mask(<num1>, <num2>[, ... , <numX>, <masktype>])
+@@ <masktype> = &, |, ^ or ~. Rhost also supports 1 and 2; this doesn't.
+&fun`mask RCF=switch(%+,2,band(%0,%1),reswitch(setr(0,r(dec(%+),args)),^\[&\\|^\],lmath(switch(%q0,&,band,|,bor,^,bxor),iter(lnum(dec(%+)),r(%i0,args))),^~,fold(#lambda/bnand(%%0,%%1),iter(lnum(dec(%+)),r(%i0,args))),\[1|2\],#-1 OPERATION NOT SUPPORTED,lmath(band,iter(lnum(dec(%+)),r(%i0,args)))))
+&fun`mask`min RCF=2
+&fun`mask`restrict RCF=localize
