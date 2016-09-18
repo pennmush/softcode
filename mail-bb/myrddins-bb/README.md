@@ -1,5 +1,5 @@
 # Global Bulletin Board, version 4.0.6
-created by Myrddin@Witchcraft/Dreaming/Elysium
+created by Myrddin@Witchcraft/Dreaming/Elysium (http://www.firstmagic.com/~merlin/)
 
 Anyone may use this code. I only ask that those that do send me a quick email 'registering' their copy with me and that the CREDITS attribute be kept on the board, unchanged.
 
@@ -87,4 +87,4 @@ Miscellaneous Notes:
  * The 3.0 and above versions were written to be used on TinyMUSH 2.2 (or later) or TinyMUX. If you have an older version of TinyMUSH, the changes are minimal (namely, replacing hasattr() wtih some equivalent soft code - there might be some other minor changes)
  * Don't use the bb as god (#1). The reason for this is that the bb stores an attribute on each character that contains the message-id's of the messages you've read. TinyMUSH doesn't allow anything to modify or set attributes on god (#1), therefore, the bb won't be able to keep track of messages you've read, or groups you've omitted yourself from. Besides, it's a bad habit to use god (#1) for day-to-day administrative stuff anyhoo. ;-) 
 
-(Note from Mike: I reformatted this README from HTML to Markdown for inclusion in the repository, but no changes were made to the content, just the formatting.)
+*(Note from Mike: I reformatted this README from HTML to Markdown for inclusion in the repository, but no changes were made to the content, just the formatting.)*
